@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../Hooks/useAuth";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Login = () => {
@@ -12,11 +12,14 @@ const Login = () => {
   } = useForm();
 
   const { signInUser } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLogin = (data) => {
     signInUser(data.email, data.password)
       .then((result) => {
         console.log(result.user);
+        navigate(location?.state || "/");
       })
       .catch((error) => {
         console.log(error);
@@ -71,7 +74,11 @@ const Login = () => {
         </fieldset>
         <p className="text-sm pt-2">
           New to Clubsphere?{" "}
-          <Link className="text-secondary font-semibold" to="/register">
+          <Link
+            state={location.state}
+            className="text-secondary font-semibold"
+            to="/register"
+          >
             <u>Register</u>
           </Link>
         </p>

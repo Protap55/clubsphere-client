@@ -1,8 +1,13 @@
 import React from "react";
 import Logo from "../../../Componants/logo/Logo";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
+import Userlogin from "../../../Componants/User/Userlogin";
+import useAuth from "../../../Hooks/useAuth";
+import { CgArrowLongRight } from "react-icons/cg";
 
 const NavBar = () => {
+  const { user } = useAuth();
+
   const links = (
     <>
       <li>
@@ -53,8 +58,21 @@ const NavBar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{links}</ul>
         </div>
+
         <div className="navbar-end">
-          <a className="btn">Button</a>
+          {user ? (
+            <Userlogin></Userlogin>
+          ) : (
+            <div className="flex items-center gap-4 ">
+              {" "}
+              <Link to="/login" className="btn bg-secondary text-white">
+                Login
+              </Link>
+              <Link to="/register" className="btn bg-secondary text-white">
+                Register
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>
